@@ -1,0 +1,17 @@
+{
+    "sqltools.connections": [
+        {
+            "askForPassword": true,
+            "database": "moviesfordummies",
+            "driver": "MySQL",
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "name": "moviesfordummies",
+            "port": 3306,
+            "previewLimit": 50,
+            "server": "localhost",
+            "username": "root"
+        }
+    ]
+}
