@@ -66,6 +66,33 @@ router.post('/user', function(req, res, next) {
     }
   });
 });
+router.post('/movie', function(req, res, next) {
+  console.log(req.body);
+  const newMovie = {
+    movie_name: req.body.movie_name
+  };
+
+  const selectMovie = `SELECT *
+    FROM movie
+    WHERE movie_name = '${newMovie.movie_name}'`;
+
+  connection.query(selectMovie, function(err, result) {
+    if (result.length > 0) {
+      res.send('Sorry, that movie already exists');
+    } else {
+      let newMovieQuery = `INSERT INTO movie(movie_name) 
+        VALUES('${newMovie.movie_name}')`;
+
+      connection.query(newMovieQuery, function(err, insertResult) {
+        if (err) {
+          res.render('error', { message: 'Oops, something went wrong!' });
+        } else {
+          res.redirect('/movie');
+        }
+      });
+    }
+  });
+});
 
 
 
