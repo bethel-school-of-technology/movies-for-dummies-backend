@@ -66,6 +66,8 @@ router.post('/user', function(req, res, next) {
     }
   });
 });
+
+
 router.post('/movie', function(req, res, next) {
   console.log(req.body);
   const newMovie = {
@@ -93,6 +95,7 @@ router.post('/movie', function(req, res, next) {
     }
   });
 });
+
 
 
 
