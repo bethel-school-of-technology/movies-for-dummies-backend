@@ -66,22 +66,26 @@ router.post('/user', function(req, res, next) {
     }
   });
 });
+
+
 router.post('/movie', function(req, res, next) {
   console.log(req.body);
   const newMovie = {
-    movie_name: req.body.movie_name
+    movie_name: req.body.movie_name,
+    description: req.body.description
   };
 
   const selectMovie = `SELECT *
     FROM movie
-    WHERE movie_name = '${newMovie.movie_name}'`;
+    WHERE movie_name = '${newMovie.movie_name}'
+    AND description = '${newMovie.description}'`;
 
   connection.query(selectMovie, function(err, result) {
     if (result.length > 0) {
       res.send('Sorry, that movie already exists');
     } else {
-      let newMovieQuery = `INSERT INTO movie(movie_name) 
-        VALUES('${newMovie.movie_name}')`;
+      let newMovieQuery = `INSERT INTO movie(movie_name, description) 
+        VALUES('${newMovie.movie_name}', '${newMovie.description}')`;
 
       connection.query(newMovieQuery, function(err, insertResult) {
         if (err) {
@@ -93,10 +97,6 @@ router.post('/movie', function(req, res, next) {
     }
   });
 });
-
-
-
-
 
 module.exports = router;
 
