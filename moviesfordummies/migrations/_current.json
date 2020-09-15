@@ -58,13 +58,20 @@
                     "field": "Email",
                     "seqType": "Sequelize.STRING"
                 },
+                "Username": {
+                    "unique": true,
+                    "field": "Username",
+                    "seqType": "Sequelize.STRING"
+                },
+                "Password": {
+                    "field": "Password",
+                    "seqType": "Sequelize.STRING"
+                },
                 "createdAt": {
-                    "allowNull": false,
                     "field": "createdAt",
                     "seqType": "Sequelize.DATE"
                 },
                 "updatedAt": {
-                    "allowNull": false,
                     "field": "updatedAt",
                     "seqType": "Sequelize.DATE"
                 }
@@ -72,5 +79,5 @@
             "indexes": []
         }
     },
-    "revision": 2
+    "revision": 4
 }

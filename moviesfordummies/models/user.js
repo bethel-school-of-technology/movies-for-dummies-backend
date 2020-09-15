@@ -7,22 +7,28 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
-    },
+      },
     first_name: {
       type: DataTypes.STRING(45),
-      allowNull: true
+      allowNull: false
     },
     last_name: {
       type: DataTypes.STRING(45),
-      allowNull: true
+      allowNull: false
     },
     Email: {
       type: DataTypes.STRING,
       unique: true
     },
+    Username: {
+      type: DataTypes.STRING,
+      unique: true
+    },
+    Password: DataTypes.STRING,
     }, {
     sequelize,
-    tableName: 'user'
+    tableName: 'user',
+    timestamps: false
   });
-  return user;
+  
 };
