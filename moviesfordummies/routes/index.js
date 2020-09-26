@@ -49,6 +49,45 @@ router.post('/user', (req, res) => {
     });
 });
 
+router.get('/specificUser', function(req, res, next) {
+    models.user
+      .findOne({
+        where: {
+          user_id: 2
+        }
+      })
+      .then(user => {
+        res.render('specificUser', {
+          user: user
+        });
+      });
+  });
+
+  router.get('/user/:id', function(req, res, next) {
+    let userId = parseInt(req.params.id);
+    models.user
+      .findOne({
+        where: {
+          user_id: userId
+        }
+      })
+      .then(user => {
+        res.render('specificUser', {
+          user: user
+        });
+      });
+  });
+
+  router.get('/user', function(req, res, next) {
+    models.user.findAll({}).then(foundUsers => {
+      const mappedUsers = foundUsers.map(actor => ({
+        UserID: user.user_id,
+        Name: `${user.first_name} ${user.last_name}`
+      }));
+      res.send(JSON.stringify(mappedUsers));
+    });
+  });
+
 
 
 router.post('/movie', (req, res) => {
