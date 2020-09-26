@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 const mysql = require('mysql2');
 const models = require('../models');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 var connection = mysql.createConnection({
   host: 'localhost',
@@ -37,6 +39,66 @@ router.post('/user', function(req, res, next) {
     last_name: req.body.last_name
   };
 
+  router.get('/user', function(req, res) {
+    models.user
+      .findAll({
+        where: {
+          [Op.and]: {
+            user_id: {
+              [Op.gt]: 55
+            },
+            last_name: {
+              [Op.like]: 'G%'
+            }
+          }
+        }
+      })
+      .then(data => {
+        res.render('user', {
+          user: data
+        });
+      });
+  });
+
+  router.get('/specificUser', function(req, res, next) {
+    models.user
+      .findOne({
+        where: {
+          user_id: 2
+        }
+      })
+      .then(user => {
+        res.render('specificUser', {
+          user: user
+        });
+      });
+  });
+
+  router.get('/user/:id', function(req, res, next) {
+    let userId = parseInt(req.params.id);
+    models.user
+      .findOne({
+        where: {
+          user_id: userId
+        }
+      })
+      .then(user => {
+        res.render('specificUser', {
+          user: user
+        });
+      });
+  });
+
+  router.get('/user', function(req, res, next) {
+    models.user.findAll({}).then(foundUsers => {
+      const mappedUsers = foundUsers.map(actor => ({
+        UserID: user.user_id,
+        Name: `${user.first_name} ${user.last_name}`
+      }));
+      res.send(JSON.stringify(mappedUsers));
+    });
+  });
+
   const selectUser = `SELECT *
     FROM user
     WHERE first_name = '${newUser.first_name}'
@@ -67,6 +129,8 @@ router.post('/movie', function(req, res, next) {
     movie_name: req.body.movie_name,
     description: req.body.description
   };
+
+
 
   const selectMovie = `SELECT *
     FROM movie
