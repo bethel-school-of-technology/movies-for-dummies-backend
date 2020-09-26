@@ -8,8 +8,8 @@ const Op = Sequelize.Op;
 var connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'Aquatic1',
-  database: 'movieuser'
+  password: 'Password1!',
+  database: 'movieUser'
 });
 
 connection.connect(function(err) {
@@ -32,35 +32,24 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.post('/user', function(req, res, next) {
-  console.log(req.body);
-  const newUser = {
-    first_name: req.body.first_name,
-    last_name: req.body.last_name
-  };
+router.post('/user', (req, res) => {
+  models.user
+    .findOrCreate({
+      where: {
+        first_name: req.body.first_name,
+        last_name: req.body.last_name
+      }
+    })
+    .spread(function(result, created) {
+      if (created) {
+        res.redirect('/user');
+      } else {
+        res.send('This actor already exists!');
+      }
+    });
+});
 
-  router.get('/user', function(req, res) {
-    models.user
-      .findAll({
-        where: {
-          [Op.and]: {
-            user_id: {
-              [Op.gt]: 55
-            },
-            last_name: {
-              [Op.like]: 'G%'
-            }
-          }
-        }
-      })
-      .then(data => {
-        res.render('user', {
-          user: data
-        });
-      });
-  });
-
-  router.get('/specificUser', function(req, res, next) {
+router.get('/specificUser', function(req, res, next) {
     models.user
       .findOne({
         where: {
@@ -99,60 +88,23 @@ router.post('/user', function(req, res, next) {
     });
   });
 
-  const selectUser = `SELECT *
-    FROM user
-    WHERE first_name = '${newUser.first_name}'
-    AND last_name = '${newUser.last_name}'`;
-
-  connection.query(selectUser, function(err, result) {
-    if (result.length > 0) {
-      res.send('Sorry, that user already exists');
-    } else {
-      let newUserQuery = `INSERT INTO user(first_name, last_name) 
-        VALUES('${newUser.first_name}', '${newUser.last_name}')`;
-
-      connection.query(newUserQuery, function(err, insertResult) {
-        if (err) {
-          res.render('error', { message: 'Oops, something went wrong!' });
-        } else {
-          res.redirect('/user');
-        }
-      });
-    }
-  });
-});
 
 
-router.post('/movie', function(req, res, next) {
-  console.log(req.body);
-  const newMovie = {
-    movie_name: req.body.movie_name,
-    description: req.body.description
-  };
-
-
-
-  const selectMovie = `SELECT *
-    FROM movie
-    WHERE movie_name = '${newMovie.movie_name}'
-    AND description = '${newMovie.description}'`;
-
-  connection.query(selectMovie, function(err, result) {
-    if (result.length > 0) {
-      res.send('Sorry, that movie already exists');
-    } else {
-      let newMovieQuery = `INSERT INTO movie(movie_name, description) 
-        VALUES('${newMovie.movie_name}', '${newMovie.description}')`;
-
-      connection.query(newMovieQuery, function(err, insertResult) {
-        if (err) {
-          res.render('error', { message: 'Oops, something went wrong!' });
-        } else {
-          res.redirect('/movie');
-        }
-      });
-    }
-  });
+router.post('/movie', (req, res) => {
+  models.movie
+    .findOrCreate({
+      where: {
+        movie_name: req.body.movie_name,
+        description: req.body.description
+      }
+    })
+    .spread(function(result, created) {
+      if (created) {
+        res.redirect('/movie');
+      } else {
+        res.send('This movie already exists!');
+      }
+    });
 });
 
 module.exports = router;
