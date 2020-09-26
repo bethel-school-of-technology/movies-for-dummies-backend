@@ -1,13 +1,13 @@
 var express = require('express');
 var router = express.Router();
-const mysql = require('mysql');
-
+const mysql = require('mysql2');
+const models = require('../models');
 
 var connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'Password1!',
-  database: 'movieUser'
+  password: 'Aquatic1',
+  database: 'movieuser'
 });
 
 connection.connect(function(err) {
