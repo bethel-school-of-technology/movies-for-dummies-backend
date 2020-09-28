@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "root",
-    "password": "Aquatic1",
-    "database": "movieuser",
+    "password": "Password1!",
+    "database": "movieUser",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "define": { "timestamps" : false }
