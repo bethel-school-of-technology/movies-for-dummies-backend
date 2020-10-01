@@ -37,7 +37,7 @@ router.post('/signup', function(req, res, next) {
         });
 
       } else {
-        res.res.json({
+        res.json({
           message: "Creating a user was unsuccessful",
           status: 400,
       });
