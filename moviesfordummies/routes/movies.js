@@ -22,7 +22,8 @@ router.post("/movies", (req, res) => {
       });
   });
 
-  router.get('/movies', function(req, res, next) {
+  router.get('/movies/:id', function(req, res, next) {
+    let moviesId = parseInt(req.params.id)
     models.movies
       .findOne({
         where: {
@@ -30,7 +31,7 @@ router.post("/movies", (req, res) => {
         }
       })
       .then(movie => {
-        res.render('movies', {
+        res.render('movie', {
           movie: movie
         });
       });

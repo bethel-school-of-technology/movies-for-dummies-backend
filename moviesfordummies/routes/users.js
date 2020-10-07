@@ -27,7 +27,7 @@ router.get('/users/:id', function(req, res, next) {
   models.users
     .findOne({
       where: {
-        userId: 3
+        userId: userId
       }
     })
     .then(user => {
