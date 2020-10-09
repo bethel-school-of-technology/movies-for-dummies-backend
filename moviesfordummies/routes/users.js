@@ -8,13 +8,43 @@ router.get("/", function (req, res, next) {
   res.send("respond with a resource");
 });
 
+router.get('/specificUser', function(req, res, next) {
+  models.users
+    .findOne({
+      where: {
+        userId: 3
+      }
+    })
+    .then(user => {
+      res.render('specificUser', {
+        user: user
+      });
+    });
+});
+
+router.get('/users/:id', function(req, res, next) {
+  let userId = parseInt(req.params.id);
+  models.users
+    .findOne({
+      where: {
+        userId: userId
+      }
+    })
+    .then(user => {
+      res.render('specificUser', {
+        user: user
+      });
+    });
+});
+
+
 //SignUp route - get
-router.get("/signup", function (req, res, next) {
-  res.render("signup");
+router.get("/register", function (req, res, next) {
+  res.render("register");
 });
 
 //SignUp route - Post
-router.post("/signup", function (req, res, next) {
+router.post("/register", function (req, res, next) {
   models.users
     .findOrCreate({
       where: {
@@ -107,22 +137,5 @@ router.get("/profile", function (req, res, next) {
   });
 });
 
-//Movie Route - Post
-router.post("/movies", (req, res) => {
-  models.movies
-    .findOrCreate({
-      where: {
-        moviesTitle: req.body.moviesTitle,
-        moviesBody: req.body.moviesBody,
-      },
-    })
-    .spread(function (result, created) {
-      if (created) {
-        res.redirect("/movies");
-      } else {
-        res.send("This movie already exists!");
-      }
-    });
-});
 
 module.exports = router;
