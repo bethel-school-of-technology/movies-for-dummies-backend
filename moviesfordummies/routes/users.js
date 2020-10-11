@@ -75,15 +75,20 @@ router.post("/register", function (req, res, next) {
 
 //Login route - Post
 router.post("/login", function (req, res, next) {
+  let username=req.body.username
+  let password=req.body.password
+  console.log(username, password);
   models.users
     .findOne({
       where: {
         username: req.body.username,
       },
+      
     })
-    .then((user) => {
+     .then((user) => {
       if (!user) {
         console.log("User not found");
+        
         return res.json({
           message: "Login Failed!!!",
           status: 401,

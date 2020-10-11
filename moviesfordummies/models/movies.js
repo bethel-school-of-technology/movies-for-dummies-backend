@@ -32,6 +32,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true
     },
+    moviesImage: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    moviesUrl: {
+      type: DataTypes.STRING,
+      notNull: false
+    },
     userId: DataTypes.INTEGER,
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE
