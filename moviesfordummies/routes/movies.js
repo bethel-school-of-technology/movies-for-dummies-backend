@@ -11,7 +11,9 @@ router.post("/movies", (req, res) => {
         where: {
           moviesTitle: req.body.moviesTitle,
           moviesBody: req.body.moviesBody,
-        },
+          moviesImage: req.body.moviesImage,
+          moviesUrl: req.body.moviesUrl
+        }
       })
       .spread(function (result, created) {
         if (created) {

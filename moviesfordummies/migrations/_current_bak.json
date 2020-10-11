@@ -27,7 +27,7 @@
                     "seqType": "Sequelize.STRING"
                 },
                 "moviesUrl": {
-                    "notNull": false,
+                    "allowNull": true,
                     "field": "moviesUrl",
                     "seqType": "Sequelize.STRING"
                 },
@@ -145,5 +145,5 @@
             "indexes": []
         }
     },
-    "revision": 5
+    "revision": 4
 }
