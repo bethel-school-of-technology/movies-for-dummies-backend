@@ -8,35 +8,34 @@ router.get("/", function (req, res, next) {
   res.send("respond with a resource");
 });
 
-router.get('/specificUser', function(req, res, next) {
+router.get("/specificUser", function (req, res, next) {
   models.users
     .findOne({
       where: {
-        userId: 3
-      }
+        userId: 3,
+      },
     })
-    .then(user => {
-      res.render('specificUser', {
-        user: user
+    .then((user) => {
+      res.render("specificUser", {
+        user: user,
       });
     });
 });
 
-router.get('/users/:id', function(req, res, next) {
+router.get("/users/:id", function (req, res, next) {
   let userId = parseInt(req.params.id);
   models.users
     .findOne({
       where: {
-        userId: userId
-      }
+        userId: userId,
+      },
     })
-    .then(user => {
-      res.render('specificUser', {
-        user: user
+    .then((user) => {
+      res.render("specificUser", {
+        user: user,
       });
     });
 });
-
 
 //SignUp route - get
 router.get("/register", function (req, res, next) {
@@ -75,23 +74,22 @@ router.post("/register", function (req, res, next) {
 
 //Login route - Post
 router.post("/login", function (req, res, next) {
-  let username=req.body.username
-  let password=req.body.password
+  let username = req.body.username;
+  let password = req.body.password;
   console.log(username, password);
   models.users
     .findOne({
       where: {
         username: req.body.username,
       },
-      
     })
-     .then((user) => {
+    .then((user) => {
       if (!user) {
         console.log("User not found");
-        
         return res.json({
           message: "Login Failed!!!",
           status: 401,
+          failureRedirect: '/users/login',
         });
       }
       if (user) {
@@ -113,14 +111,12 @@ router.post("/login", function (req, res, next) {
             status: 400,
           });
         }
-      } else {
-        console.log("Wrong password");
-        res.json({
-          message: "Password Failed!!!!",
-          status: 400,
-        });
       }
     });
+});
+
+router.post("/login", function (req, res, next) {
+  failureRedirect: "/users/login";
 });
 
 //Profile Route - Get
@@ -141,6 +137,5 @@ router.get("/profile", function (req, res, next) {
     }
   });
 });
-
 
 module.exports = router;
